@@ -1,0 +1,8 @@
+# robots.txt for sysvyn.com
+# Tells search engines which pages to crawl
+
+User-agent: *
+Allow: /
+
+# Sitemap location — tells Google where to find all your pages
+Sitemap: https://sysvyn.com/sitemap.xml
