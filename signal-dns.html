@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DNS: The Internet's Phone Book — The Signal by Sysvyn</title>
+  <meta name="description" content="DNS explained simply — how your browser finds websites, what happens when DNS breaks, and why it matters for your business domain."/>
+  <meta name="keywords" content="what is DNS, DNS explained, domain name system, how websites work, DNS for small business, domain name server South Africa"/>
+  <meta name="author" content="Wayne Sylvester, Sysvyn"/>
+  <link rel="canonical" href="https://sysvyn.com/signal-dns.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://sysvyn.com/signal-dns.html"/>
+  <meta property="og:title" content="DNS: The Internet's Phone Book"/>
+  <meta property="og:description" content="How does your browser know where to go when you type a web address? DNS translates names into addresses in milliseconds — here's how it works."/>
+  <meta property="og:image" content="https://sysvyn.com/assets/images/og-signal.png"/>
+  <meta property="og:site_name" content="Sysvyn — The Signal"/>
+  <meta property="og:locale" content="en_ZA"/>
+  <meta property="article:published_time" content="2026-05-01"/>
+  <meta property="article:author" content="Wayne Sylvester"/>
+  <meta property="article:section" content="Networking"/>
+  <meta property="article:tag" content="DNS, Networking, Domains, Web Infrastructure"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="DNS: The Internet's Phone Book"/>
+  <meta name="twitter:description" content="How your browser finds websites in milliseconds — DNS explained in plain English."/>
+  <meta name="twitter:image" content="https://sysvyn.com/assets/images/og-signal.png"/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "DNS: The internet's phone book",
+    "description": "DNS explained in plain English — how your browser finds websites, what happens when DNS breaks, and why it matters for your business domain.",
+    "author": {
+      "@type": "Person",
+      "name": "Wayne Sylvester",
+      "url": "https://sysvyn.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Sysvyn",
+      "url": "https://sysvyn.com",
+      "logo": { "@type": "ImageObject", "url": "https://sysvyn.com/assets/images/logo.png" }
+    },
+    "datePublished": "2026-05-01",
+    "dateModified": "2026-05-01",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://sysvyn.com/signal-dns.html" },
+    "articleSection": "Networking",
+    "keywords": "DNS, domain name system, networking, web infrastructure, domains",
+    "inLanguage": "en-ZA",
+    "image": "https://sysvyn.com/assets/images/og-signal.png",
+    "timeRequired": "PT4M"
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark:   #0a3d1f;
+      --green-mid:    #166534;
+      --green-main:   #16a34a;
+      --green-light:  #22c55e;
+      --green-pale:   #dcfce7;
+      --white:        #ffffff;
+      --off-white:    #f8faf8;
+      --text-dark:    #0f1f14;
+      --text-mid:     #334d3e;
+      --text-light:   #6b8f78;
+      --border:       #d1fae5;
+      --net-dark:     #1e3a5f;
+      --net-mid:      #1d4ed8;
+      --net-light:    #60a5fa;
+      --net-pale:     #dbeafe;
+      --net-border:   #bfdbfe;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text-dark); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 4rem;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; color: var(--green-mid); text-decoration: none; }
+    .nav-logo span { color: var(--green-light); }
+    .nav-back { display: flex; align-items: center; gap: 0.4rem; color: var(--green-main); font-weight: 500; font-size: 0.9rem; text-decoration: none; transition: gap 0.2s; }
+    .nav-back:hover { gap: 0.7rem; }
+    .nav-back::before { content: '←'; }
+    .nav-signal-tag {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: var(--net-pale); color: var(--net-mid);
+      padding: 0.3rem 0.75rem; border-radius: 100px;
+      font-size: 0.78rem; font-weight: 600;
+    }
+
+    /* ARTICLE HERO */
+    .article-hero {
+      padding: 9rem 4rem 4rem;
+      background: linear-gradient(160deg, var(--net-dark) 0%, #1e3a8a 60%, #1e3a5f 100%);
+      border-bottom: 1px solid var(--net-border);
+      position: relative; overflow: hidden;
+    }
+    .article-hero::before {
+      content: ''; position: absolute; top: -30%; right: -10%;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(59,130,246,0.2), transparent 70%);
+      pointer-events: none;
+    }
+
+    .article-breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-bottom: 2rem; position: relative; z-index: 1; }
+    .article-breadcrumb a { color: var(--net-light); text-decoration: none; }
+    .article-breadcrumb a:hover { text-decoration: underline; }
+    .article-breadcrumb span { color: rgba(255,255,255,0.25); }
+
+    .article-tag-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(96,165,250,0.2); border: 1px solid rgba(96,165,250,0.35);
+      color: var(--net-light); padding: 0.3rem 0.85rem; border-radius: 100px;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em;
+      text-transform: uppercase; margin-bottom: 1.25rem;
+      position: relative; z-index: 1;
+    }
+    .article-tag-pill::before { content: '🗺️'; }
+
+    .article-hero h1 {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.08;
+      letter-spacing: -0.02em; color: white;
+      max-width: 800px; margin-bottom: 1.25rem;
+      position: relative; z-index: 1;
+    }
+
+    .article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 2rem; position: relative; z-index: 1; }
+    .article-meta strong { color: rgba(255,255,255,0.8); }
+
+    .article-summary {
+      font-size: 1.1rem; color: rgba(255,255,255,0.75); line-height: 1.75;
+      max-width: 700px; font-weight: 300;
+      border-left: 3px solid var(--net-mid); padding-left: 1.25rem;
+      position: relative; z-index: 1;
+    }
+
+    /* ARTICLE LAYOUT */
+    .article-layout { display: grid; grid-template-columns: 1fr 280px; gap: 4rem; max-width: 1100px; margin: 0 auto; padding: 4rem 4rem 6rem; align-items: start; }
+
+    .article-body { max-width: 720px; }
+    .article-body h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.5rem; color: var(--text-dark); margin: 2.5rem 0 1rem; letter-spacing: -0.01em; }
+    .article-body h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.15rem; color: var(--text-dark); margin: 2rem 0 0.75rem; }
+    .article-body p { font-size: 1rem; color: var(--text-mid); line-height: 1.85; margin-bottom: 1.25rem; font-weight: 300; }
+    .article-body strong { color: var(--text-dark); font-weight: 500; }
+    .article-body code { background: var(--off-white); border: 1px solid var(--border); padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.9em; color: var(--net-mid); }
+
+    .callout { background: var(--green-pale); border: 1px solid var(--border); border-left: 4px solid var(--green-main); border-radius: 0 12px 12px 0; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .callout-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--green-mid); margin-bottom: 0.5rem; }
+    .callout p { margin: 0; color: var(--green-mid); font-size: 0.95rem; }
+
+    .net-callout { background: var(--net-pale); border: 1px solid var(--net-border); border-left: 4px solid var(--net-mid); border-radius: 0 12px 12px 0; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .net-callout .callout-label { color: var(--net-mid); }
+    .net-callout p { margin: 0; color: var(--net-mid); font-size: 0.95rem; }
+
+    .analogy-box { background: var(--net-dark); color: white; border-radius: 14px; padding: 2rem; margin: 2rem 0; position: relative; overflow: hidden; }
+    .analogy-box::before { content: ''; position: absolute; top: -40%; right: -10%; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(59,130,246,0.2), transparent 70%); pointer-events: none; }
+    .analogy-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--net-light); margin-bottom: 0.75rem; position: relative; z-index: 1; }
+    .analogy-box p { color: rgba(255,255,255,0.8); margin: 0; font-size: 1rem; position: relative; z-index: 1; }
+    .analogy-box strong { color: white; }
+
+    .step-list { list-style: none; margin: 1.5rem 0; }
+    .step-list li { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 0; border-bottom: 1px solid var(--border); }
+    .step-list li:last-child { border: none; }
+    .step-num-inline { width: 28px; height: 28px; border-radius: 50%; background: var(--net-mid); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .step-list-content p { margin: 0; font-size: 0.95rem; color: var(--text-mid); }
+    .step-list-content strong { display: block; margin-bottom: 0.2rem; color: var(--text-dark); font-size: 0.95rem; }
+
+    .record-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+    .record-table th { background: var(--net-dark); color: white; padding: 0.75rem 1rem; text-align: left; font-family: 'Syne', sans-serif; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.03em; }
+    .record-table td { padding: 0.75rem 1rem; font-size: 0.88rem; color: var(--text-mid); border-bottom: 1px solid var(--border); }
+    .record-table tr:last-child td { border-bottom: none; }
+    .record-table tr:nth-child(even) td { background: var(--off-white); }
+    .record-type { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--net-mid); }
+
+    .divider { height: 1px; background: var(--border); margin: 2.5rem 0; }
+
+    .key-takeaways { background: var(--net-pale); border: 1px solid var(--net-border); border-radius: 16px; padding: 1.75rem; margin: 2.5rem 0; }
+    .key-takeaways h3 { margin: 0 0 1rem; font-size: 1rem; color: var(--net-mid); }
+    .key-takeaways ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .key-takeaways li { display: flex; gap: 0.5rem; font-size: 0.9rem; color: var(--text-mid); }
+    .key-takeaways li::before { content: '✓'; color: var(--net-mid); font-weight: 700; flex-shrink: 0; }
+
+    /* SIDEBAR */
+    .article-sidebar { position: sticky; top: 100px; }
+    .sidebar-toc { background: var(--off-white); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.5rem; }
+    .sidebar-toc h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; color: var(--text-dark); margin-bottom: 1rem; letter-spacing: 0.02em; text-transform: uppercase; }
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .toc-list a { font-size: 0.85rem; color: var(--text-light); text-decoration: none; transition: color 0.2s; line-height: 1.4; display: block; padding: 0.1rem 0; }
+    .toc-list a:hover { color: var(--net-mid); }
+
+    .sidebar-cta { background: var(--net-dark); border-radius: 14px; padding: 1.5rem; text-align: center; margin-bottom: 1.5rem; }
+    .sidebar-cta p { font-size: 0.88rem; color: rgba(255,255,255,0.65); margin-bottom: 1rem; line-height: 1.5; }
+    .sidebar-cta a { display: block; background: var(--net-mid); color: white; padding: 0.7rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.88rem; text-decoration: none; transition: background 0.2s; }
+    .sidebar-cta a:hover { background: #1d4ed8; }
+
+    .sidebar-related { margin-top: 0; }
+    .sidebar-related h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.82rem; color: var(--text-light); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    .related-link { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid var(--border); text-decoration: none; transition: all 0.2s; }
+    .related-link:last-child { border: none; }
+    .related-link:hover .related-title { color: var(--net-mid); }
+    .related-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+    .related-title { font-size: 0.85rem; color: var(--text-mid); line-height: 1.4; font-weight: 500; }
+
+    /* FOOTER */
+    .article-footer { background: var(--text-dark); padding: 2rem 4rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .article-footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; color: white; text-decoration: none; }
+    .article-footer-logo span { color: var(--green-light); }
+    .article-footer p { color: rgba(255,255,255,0.4); font-size: 0.82rem; }
+    .article-footer a { color: var(--net-light); text-decoration: none; font-size: 0.82rem; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-signal-tag { display: none; }
+      .article-hero { padding: 7rem 1.5rem 3rem; }
+      .article-layout { grid-template-columns: 1fr; padding: 2rem 1.5rem 4rem; gap: 2rem; }
+      .article-sidebar { position: static; }
+      .article-footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
+      .record-table { font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Sys<span>vyn</span></a>
+  <span class="nav-signal-tag">Networking</span>
+  <a href="signal.html" class="nav-back">All articles</a>
+</nav>
+
+<!-- ARTICLE HERO -->
+<div class="article-hero">
+  <div class="article-breadcrumb">
+    <a href="index.html">Sysvyn</a>
+    <span>/</span>
+    <a href="signal.html">The Signal</a>
+    <span>/</span>
+    <span>DNS explained</span>
+  </div>
+  <span class="article-tag-pill">Networking · 4 min read</span>
+  <h1>DNS: The internet's phone book</h1>
+  <div class="article-meta">
+    <span>By <strong>Wayne Sylvester</strong></span>
+    <span>·</span>
+    <span>May 2026</span>
+    <span>·</span>
+    <span>Networking basics</span>
+  </div>
+  <p class="article-summary">
+    Every time you type a web address, your computer has to find out where in the world that website actually lives. DNS is the system that makes that happen — in milliseconds, invisibly, billions of times a day. Here's how it works.
+  </p>
+</div>
+
+<!-- ARTICLE LAYOUT -->
+<div class="article-layout">
+  <article class="article-body">
+
+    <h2 id="the-problem">The problem DNS solves</h2>
+    <p>Computers don't understand names like <strong>sysvyn.com</strong>. What they understand are numbers — specifically, IP addresses, which look something like <code>104.21.45.67</code>. Every website, every server, every device connected to the internet has one of these numerical addresses.</p>
+    <p>The problem is that humans are terrible at remembering strings of numbers but very good at remembering names. You can remember <strong>sysvyn.com</strong>. You can't realistically remember <code>104.21.45.67</code> for every website you visit.</p>
+    <p>DNS — the Domain Name System — is the solution. It's a global database that translates human-readable names into the numerical IP addresses that computers need to connect.</p>
+
+    <div class="analogy-box">
+      <div class="analogy-label">The Phone Book Analogy</div>
+      <p>Before smartphones, you'd look up a person's name in a phone book to find their number. DNS works exactly the same way — you give it a name (<strong>sysvyn.com</strong>) and it gives you back the number (<strong>104.21.45.67</strong>) so your computer knows where to connect. The difference is that DNS does it in under 100 milliseconds, automatically, every time you visit a website.</p>
+    </div>
+
+    <h2 id="how-it-works">How the lookup actually works</h2>
+    <p>When you type a web address and press Enter, a surprisingly sophisticated process happens — all before your browser loads a single byte of the page.</p>
+
+    <ol class="step-list">
+      <li>
+        <div class="step-num-inline">1</div>
+        <div class="step-list-content">
+          <strong>Your computer checks its own memory first</strong>
+          <p>Your device keeps a local cache of recent DNS lookups. If you visited sysvyn.com an hour ago, your computer probably still remembers the IP address and skips the rest of these steps entirely.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-num-inline">2</div>
+        <div class="step-list-content">
+          <strong>It asks your DNS resolver</strong>
+          <p>If the answer isn't cached, your computer asks a DNS resolver — usually run by your internet provider or a service like Cloudflare (1.1.1.1) or Google (8.8.8.8). This resolver is your primary contact for DNS queries.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-num-inline">3</div>
+        <div class="step-list-content">
+          <strong>The resolver works up the chain</strong>
+          <p>If the resolver doesn't have the answer cached, it asks a Root Name Server — one of 13 sets of servers worldwide that know which servers are responsible for each top-level domain (.com, .co.za, .net etc.).</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-num-inline">4</div>
+        <div class="step-list-content">
+          <strong>The authoritative answer comes back</strong>
+          <p>Eventually the query reaches the authoritative name server for that specific domain — in Sysvyn's case, Cloudflare's nameservers. That server has the definitive answer and returns the IP address.</p>
+        </div>
+      </li>
+      <li>
+        <div class="step-num-inline">5</div>
+        <div class="step-list-content">
+          <strong>Your browser connects</strong>
+          <p>Your computer now has the IP address, stores it in cache so it doesn't have to look it up again for a while, and your browser connects to the website. The whole process typically takes 20–120 milliseconds.</p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="net-callout">
+      <div class="callout-label">Worth knowing</div>
+      <p>This is why changing DNS settings — like pointing your domain to a new host — takes time to "propagate." The change has to ripple through cached records worldwide before everyone sees the new address. This is the 15 minutes to 48 hours wait you've probably experienced when changing domains.</p>
+    </div>
+
+    <h2 id="dns-records">DNS records — the different types</h2>
+    <p>DNS isn't just one thing. A domain's DNS settings contain multiple different record types, each serving a specific purpose. Here are the ones you'll encounter most often:</p>
+
+    <table class="record-table">
+      <thead>
+        <tr>
+          <th>Record Type</th>
+          <th>What it does</th>
+          <th>Example use</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="record-type">A</span></td>
+          <td>Points a domain name to an IP address (IPv4)</td>
+          <td>sysvyn.com → 104.21.45.67</td>
+        </tr>
+        <tr>
+          <td><span class="record-type">CNAME</span></td>
+          <td>Points a name to another name (an alias)</td>
+          <td>www.sysvyn.com → sysvyn.com</td>
+        </tr>
+        <tr>
+          <td><span class="record-type">MX</span></td>
+          <td>Tells email servers where to deliver email for your domain</td>
+          <td>hello@sysvyn.com → Zoho Mail servers</td>
+        </tr>
+        <tr>
+          <td><span class="record-type">TXT</span></td>
+          <td>Stores text information — often used for email verification and security</td>
+          <td>SPF records to prevent email spoofing</td>
+        </tr>
+        <tr>
+          <td><span class="record-type">NS</span></td>
+          <td>Declares which servers are authoritative for your domain</td>
+          <td>emely.ns.cloudflare.com</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>When you set up a website, connect professional email, or verify your domain with Google — you're editing these DNS records. That's exactly what happened when Sysvyn pointed your domain to Cloudflare and set up your Zoho Mail MX records.</p>
+
+    <h2 id="nameservers">What are nameservers?</h2>
+    <p>Nameservers are the servers that hold all the DNS records for your domain. When you register a domain, it comes with default nameservers from your registrar. When you move to Cloudflare for DNS management, you update those nameservers to Cloudflare's — which is why you had to go into Namecheap and change that setting.</p>
+    <p>Think of nameservers as the address of the phone book that holds your domain's listings. Changing nameservers means telling the internet "go look in this phone book instead of the old one." The propagation wait is just every DNS server worldwide updating their directions to the new phone book.</p>
+
+    <div class="callout">
+      <div class="callout-label">The practical takeaway</div>
+      <p>If your website ever stops loading after a DNS change, the most common causes are: propagation isn't complete yet (wait), an A record pointing to the wrong IP address, or missing records entirely. In Cloudflare, you can see all your records clearly and fix them without touching any code.</p>
+    </div>
+
+    <h2 id="why-cloudflare">Why Cloudflare DNS specifically?</h2>
+    <p>Not all DNS providers are equal. Cloudflare runs one of the fastest DNS networks in the world — their <code>1.1.1.1</code> resolver is consistently the fastest public DNS service measured globally. When your domain's DNS is managed through Cloudflare, you also get DDoS protection, analytics, and the ability to proxy traffic through their global network for security and speed.</p>
+    <p>It's also why Sysvyn uses Cloudflare for every client domain — the DNS management, security layer, and CDN are all in one place, free of charge, and significantly faster and more reliable than most hosting providers' built-in DNS tools.</p>
+
+    <div class="divider"></div>
+
+    <div class="key-takeaways">
+      <h3>Key takeaways</h3>
+      <ul>
+        <li>DNS translates human-readable domain names into the IP addresses computers need</li>
+        <li>The process happens in milliseconds through a chain of servers worldwide</li>
+        <li>DNS propagation delay (15 min – 48 hours) is just cached records updating globally</li>
+        <li>A records point domains to IP addresses; MX records route email; CNAME records create aliases</li>
+        <li>Nameservers are the authoritative source of DNS records for your domain</li>
+        <li>Cloudflare provides free, fast, and secure DNS management with extra protection built in</li>
+      </ul>
+    </div>
+
+    <h2 id="next">What's next</h2>
+    <p>DNS gets your browser to the right server. But once you're connected, how does the website know the connection is secure? That's TLS — the technology behind the padlock in your browser. We cover that in detail in the related article below.</p>
+    <p>And if you've ever wondered what the difference between HTTP and HTTPS actually is at a practical level, that's covered in the SSL article too.</p>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="article-sidebar">
+    <div class="sidebar-toc">
+      <h4>In this article</h4>
+      <ul class="toc-list">
+        <li><a href="#the-problem">The problem DNS solves</a></li>
+        <li><a href="#how-it-works">How the lookup works</a></li>
+        <li><a href="#dns-records">DNS record types</a></li>
+        <li><a href="#nameservers">What are nameservers?</a></li>
+        <li><a href="#why-cloudflare">Why Cloudflare DNS?</a></li>
+        <li><a href="#next">What's next</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-cta">
+      <p>Need your domain set up correctly with fast, secure DNS? We handle this for every client.</p>
+      <a href="index.html#contact">Talk to us →</a>
+    </div>
+
+    <div class="sidebar-related">
+      <h4>Related articles</h4>
+      <a href="signal-tls.html" class="related-link">
+        <span class="related-icon">🔐</span>
+        <span class="related-title">What is TLS? The padlock in your browser, explained</span>
+      </a>
+      <a href="signal-ssl.html" class="related-link">
+        <span class="related-icon">🛡️</span>
+        <span class="related-title">HTTP vs HTTPS — what's the real difference?</span>
+      </a>
+      <a href="signal-ai-explained.html" class="related-link">
+        <span class="related-icon">🤖</span>
+        <span class="related-title">What is AI, really? An honest explanation</span>
+      </a>
+    </div>
+  </aside>
+</div>
+
+<!-- FOOTER -->
+<div class="article-footer">
+  <a href="index.html" class="article-footer-logo">Sys<span>vyn</span></a>
+  <p>Part of <a href="signal.html">The Signal</a> — tech explained for humans</p>
+  <a href="index.html#contact">Get in touch →</a>
+</div>
+
+</body>
+</html>

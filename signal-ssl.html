@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HTTP vs HTTPS — What's the Real Difference? | The Signal by Sysvyn</title>
+  <meta name="description" content="HTTP vs HTTPS explained plainly — what the difference actually is, why it matters for your business website, and what Google thinks about unsecured sites."/>
+  <meta name="keywords" content="HTTP vs HTTPS, what is HTTPS, website security South Africa, SSL certificate explained, why HTTPS matters, secure website small business"/>
+  <meta name="author" content="Wayne Sylvester, Sysvyn"/>
+  <link rel="canonical" href="https://sysvyn.com/signal-ssl.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://sysvyn.com/signal-ssl.html"/>
+  <meta property="og:title" content="HTTP vs HTTPS — What's the Real Difference?"/>
+  <meta property="og:description" content="Your website might be leaking information to anyone watching. Here's what HTTP vs HTTPS actually means and why every business site needs the S."/>
+  <meta property="og:image" content="https://sysvyn.com/assets/images/og-signal.png"/>
+  <meta property="og:site_name" content="Sysvyn — The Signal"/>
+  <meta property="og:locale" content="en_ZA"/>
+  <meta property="article:published_time" content="2026-05-01"/>
+  <meta property="article:author" content="Wayne Sylvester"/>
+  <meta property="article:section" content="Security"/>
+  <meta property="article:tag" content="HTTPS, HTTP, Security, SSL, Website Security"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="HTTP vs HTTPS — What's the Real Difference?"/>
+  <meta name="twitter:description" content="What HTTP and HTTPS actually mean, why the S matters, and what Google does to sites that don't have it."/>
+  <meta name="twitter:image" content="https://sysvyn.com/assets/images/og-signal.png"/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "HTTP vs HTTPS — what's the real difference?",
+    "description": "HTTP vs HTTPS explained plainly — what the difference actually is, why it matters for your business website, and what Google thinks about unsecured sites.",
+    "author": {
+      "@type": "Person",
+      "name": "Wayne Sylvester",
+      "url": "https://sysvyn.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Sysvyn",
+      "url": "https://sysvyn.com",
+      "logo": { "@type": "ImageObject", "url": "https://sysvyn.com/assets/images/logo.png" }
+    },
+    "datePublished": "2026-05-01",
+    "dateModified": "2026-05-01",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://sysvyn.com/signal-ssl.html" },
+    "articleSection": "Security",
+    "keywords": "HTTPS, HTTP, SSL, website security, secure website",
+    "inLanguage": "en-ZA",
+    "image": "https://sysvyn.com/assets/images/og-signal.png",
+    "timeRequired": "PT3M"
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark:   #0a3d1f;
+      --green-mid:    #166534;
+      --green-main:   #16a34a;
+      --green-light:  #22c55e;
+      --green-pale:   #dcfce7;
+      --white:        #ffffff;
+      --off-white:    #f8faf8;
+      --text-dark:    #0f1f14;
+      --text-mid:     #334d3e;
+      --text-light:   #6b8f78;
+      --border:       #d1fae5;
+      --sec-dark:     #4a1942;
+      --sec-mid:      #9d174d;
+      --sec-light:    #f9a8d4;
+      --sec-pale:     #fce7f3;
+      --sec-border:   #fbcfe8;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text-dark); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 4rem;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; color: var(--green-mid); text-decoration: none; }
+    .nav-logo span { color: var(--green-light); }
+    .nav-back { display: flex; align-items: center; gap: 0.4rem; color: var(--green-main); font-weight: 500; font-size: 0.9rem; text-decoration: none; transition: gap 0.2s; }
+    .nav-back:hover { gap: 0.7rem; }
+    .nav-back::before { content: '←'; }
+    .nav-signal-tag {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: var(--sec-pale); color: var(--sec-mid);
+      padding: 0.3rem 0.75rem; border-radius: 100px;
+      font-size: 0.78rem; font-weight: 600;
+    }
+
+    /* ARTICLE HERO */
+    .article-hero {
+      padding: 9rem 4rem 4rem;
+      background: linear-gradient(160deg, var(--sec-dark) 0%, #831843 60%, #4a1942 100%);
+      border-bottom: 1px solid var(--sec-border);
+      position: relative; overflow: hidden;
+    }
+    .article-hero::before {
+      content: ''; position: absolute; top: -30%; right: -10%;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(249,168,212,0.15), transparent 70%);
+      pointer-events: none;
+    }
+
+    .article-breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-bottom: 2rem; position: relative; z-index: 1; }
+    .article-breadcrumb a { color: var(--sec-light); text-decoration: none; }
+    .article-breadcrumb a:hover { text-decoration: underline; }
+    .article-breadcrumb span { color: rgba(255,255,255,0.25); }
+
+    .article-tag-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(249,168,212,0.2); border: 1px solid rgba(249,168,212,0.35);
+      color: var(--sec-light); padding: 0.3rem 0.85rem; border-radius: 100px;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em;
+      text-transform: uppercase; margin-bottom: 1.25rem;
+      position: relative; z-index: 1;
+    }
+    .article-tag-pill::before { content: '🛡️'; }
+
+    .article-hero h1 {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.08;
+      letter-spacing: -0.02em; color: white;
+      max-width: 800px; margin-bottom: 1.25rem;
+      position: relative; z-index: 1;
+    }
+
+    .article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 2rem; position: relative; z-index: 1; }
+    .article-meta strong { color: rgba(255,255,255,0.8); }
+
+    .article-summary {
+      font-size: 1.1rem; color: rgba(255,255,255,0.75); line-height: 1.75;
+      max-width: 700px; font-weight: 300;
+      border-left: 3px solid var(--sec-mid); padding-left: 1.25rem;
+      position: relative; z-index: 1;
+    }
+
+    /* ARTICLE LAYOUT */
+    .article-layout { display: grid; grid-template-columns: 1fr 280px; gap: 4rem; max-width: 1100px; margin: 0 auto; padding: 4rem 4rem 6rem; align-items: start; }
+
+    .article-body { max-width: 720px; }
+    .article-body h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.5rem; color: var(--text-dark); margin: 2.5rem 0 1rem; letter-spacing: -0.01em; }
+    .article-body h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.15rem; color: var(--text-dark); margin: 2rem 0 0.75rem; }
+    .article-body p { font-size: 1rem; color: var(--text-mid); line-height: 1.85; margin-bottom: 1.25rem; font-weight: 300; }
+    .article-body strong { color: var(--text-dark); font-weight: 500; }
+    .article-body code { background: var(--off-white); border: 1px solid var(--border); padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.9em; color: var(--sec-mid); }
+
+    .callout { background: var(--green-pale); border: 1px solid var(--border); border-left: 4px solid var(--green-main); border-radius: 0 12px 12px 0; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .callout-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--green-mid); margin-bottom: 0.5rem; }
+    .callout p { margin: 0; color: var(--green-mid); font-size: 0.95rem; }
+
+    .warning-callout { background: #fef2f2; border: 1px solid #fecaca; border-left: 4px solid #ef4444; border-radius: 0 12px 12px 0; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .warning-callout .callout-label { color: #b91c1c; }
+    .warning-callout p { margin: 0; color: #b91c1c; font-size: 0.95rem; }
+
+    .sec-callout { background: var(--sec-pale); border: 1px solid var(--sec-border); border-left: 4px solid var(--sec-mid); border-radius: 0 12px 12px 0; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .sec-callout .callout-label { color: var(--sec-mid); }
+    .sec-callout p { margin: 0; color: var(--sec-mid); font-size: 0.95rem; }
+
+    .analogy-box { background: var(--sec-dark); color: white; border-radius: 14px; padding: 2rem; margin: 2rem 0; position: relative; overflow: hidden; }
+    .analogy-box::before { content: ''; position: absolute; top: -40%; right: -10%; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(249,168,212,0.15), transparent 70%); pointer-events: none; }
+    .analogy-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sec-light); margin-bottom: 0.75rem; position: relative; z-index: 1; }
+    .analogy-box p { color: rgba(255,255,255,0.8); margin: 0; font-size: 1rem; position: relative; z-index: 1; }
+    .analogy-box strong { color: white; }
+
+    /* Comparison cards */
+    .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+    .compare-card { border-radius: 14px; padding: 1.5rem; }
+    .compare-http { background: #fef2f2; border: 1px solid #fecaca; }
+    .compare-https { background: var(--green-pale); border: 1px solid var(--border); }
+    .compare-card h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
+    .compare-http h4 { color: #b91c1c; }
+    .compare-https h4 { color: var(--green-mid); }
+    .compare-card .url-display { font-family: monospace; font-size: 0.88rem; padding: 0.4rem 0.75rem; border-radius: 6px; margin-bottom: 0.75rem; display: inline-block; }
+    .compare-http .url-display { background: #fee2e2; color: #b91c1c; }
+    .compare-https .url-display { background: var(--green-pale); color: var(--green-mid); border: 1px solid var(--border); }
+    .compare-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+    .compare-card li { font-size: 0.85rem; display: flex; gap: 0.5rem; color: var(--text-mid); line-height: 1.4; }
+    .compare-http li::before { content: '✗'; color: #ef4444; font-weight: 700; flex-shrink: 0; }
+    .compare-https li::before { content: '✓'; color: var(--green-main); font-weight: 700; flex-shrink: 0; }
+
+    .divider { height: 1px; background: var(--border); margin: 2.5rem 0; }
+
+    .key-takeaways { background: var(--sec-pale); border: 1px solid var(--sec-border); border-radius: 16px; padding: 1.75rem; margin: 2.5rem 0; }
+    .key-takeaways h3 { margin: 0 0 1rem; font-size: 1rem; color: var(--sec-mid); }
+    .key-takeaways ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .key-takeaways li { display: flex; gap: 0.5rem; font-size: 0.9rem; color: var(--text-mid); }
+    .key-takeaways li::before { content: '✓'; color: var(--sec-mid); font-weight: 700; flex-shrink: 0; }
+
+    /* SIDEBAR */
+    .article-sidebar { position: sticky; top: 100px; }
+    .sidebar-toc { background: var(--off-white); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.5rem; }
+    .sidebar-toc h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; color: var(--text-dark); margin-bottom: 1rem; letter-spacing: 0.02em; text-transform: uppercase; }
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .toc-list a { font-size: 0.85rem; color: var(--text-light); text-decoration: none; transition: color 0.2s; line-height: 1.4; display: block; padding: 0.1rem 0; }
+    .toc-list a:hover { color: var(--sec-mid); }
+
+    .sidebar-cta { background: var(--sec-dark); border-radius: 14px; padding: 1.5rem; text-align: center; margin-bottom: 1.5rem; }
+    .sidebar-cta p { font-size: 0.88rem; color: rgba(255,255,255,0.65); margin-bottom: 1rem; line-height: 1.5; }
+    .sidebar-cta a { display: block; background: var(--sec-mid); color: white; padding: 0.7rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.88rem; text-decoration: none; transition: background 0.2s; }
+    .sidebar-cta a:hover { background: #be185d; }
+
+    .sidebar-related { margin-top: 0; }
+    .sidebar-related h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.82rem; color: var(--text-light); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    .related-link { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid var(--border); text-decoration: none; transition: all 0.2s; }
+    .related-link:last-child { border: none; }
+    .related-link:hover .related-title { color: var(--sec-mid); }
+    .related-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+    .related-title { font-size: 0.85rem; color: var(--text-mid); line-height: 1.4; font-weight: 500; }
+
+    /* FOOTER */
+    .article-footer { background: var(--text-dark); padding: 2rem 4rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .article-footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; color: white; text-decoration: none; }
+    .article-footer-logo span { color: var(--green-light); }
+    .article-footer p { color: rgba(255,255,255,0.4); font-size: 0.82rem; }
+    .article-footer a { color: var(--sec-light); text-decoration: none; font-size: 0.82rem; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-signal-tag { display: none; }
+      .article-hero { padding: 7rem 1.5rem 3rem; }
+      .article-layout { grid-template-columns: 1fr; padding: 2rem 1.5rem 4rem; gap: 2rem; }
+      .article-sidebar { position: static; }
+      .comparison { grid-template-columns: 1fr; }
+      .article-footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Sys<span>vyn</span></a>
+  <span class="nav-signal-tag">Security</span>
+  <a href="signal.html" class="nav-back">All articles</a>
+</nav>
+
+<!-- ARTICLE HERO -->
+<div class="article-hero">
+  <div class="article-breadcrumb">
+    <a href="index.html">Sysvyn</a>
+    <span>/</span>
+    <a href="signal.html">The Signal</a>
+    <span>/</span>
+    <span>HTTP vs HTTPS</span>
+  </div>
+  <span class="article-tag-pill">Security · 3 min read</span>
+  <h1>HTTP vs HTTPS — what's the real difference?</h1>
+  <div class="article-meta">
+    <span>By <strong>Wayne Sylvester</strong></span>
+    <span>·</span>
+    <span>May 2026</span>
+    <span>·</span>
+    <span>Security basics</span>
+  </div>
+  <p class="article-summary">
+    Your website might be leaking information to anyone watching. The difference between HTTP and HTTPS is a single letter — but that letter represents the difference between an open postcard and a sealed, tamper-proof envelope. Here's what it actually means.
+  </p>
+</div>
+
+<!-- ARTICLE LAYOUT -->
+<div class="article-layout">
+  <article class="article-body">
+
+    <h2 id="what-is-http">What HTTP actually is</h2>
+    <p>HTTP stands for <strong>HyperText Transfer Protocol</strong>. It's the language your browser uses to communicate with web servers — the set of rules that governs how data is requested and sent across the internet.</p>
+    <p>When you visit a website, your browser sends an HTTP request to the server saying "give me this page." The server sends back an HTTP response with the page content. This has been the foundation of the web since it was invented in 1989.</p>
+    <p>The problem is that HTTP sends everything in <strong>plain text</strong>. No scrambling, no protection, no lock on the door. Anyone who can intercept the traffic between your browser and the server can read it — exactly as it was sent.</p>
+
+    <div class="analogy-box">
+      <div class="analogy-label">Think of it this way</div>
+      <p>HTTP is like sending a postcard. The message is written in the open, and every person who handles it between you and the recipient — postal workers, sorting centres, anyone — can read exactly what it says. <strong>HTTPS puts that postcard inside a sealed, tamper-proof envelope that only the recipient can open.</strong></p>
+    </div>
+
+    <h2 id="what-is-https">What HTTPS adds</h2>
+    <p>HTTPS is simply HTTP with security added on top. The S stands for <strong>Secure</strong>, and what makes it secure is TLS — Transport Layer Security — which encrypts every piece of data sent between your browser and the server.</p>
+    <p>With HTTPS active, even if someone intercepts your traffic, all they see is scrambled, unreadable data. The content of the page, any forms you fill in, login credentials, personal details — all of it is protected.</p>
+
+    <div class="comparison">
+      <div class="compare-card compare-http">
+        <h4>HTTP</h4>
+        <div class="url-display">http://example.com</div>
+        <ul>
+          <li>Data sent as plain text</li>
+          <li>Anyone can intercept and read it</li>
+          <li>No identity verification</li>
+          <li>Browser shows "Not secure"</li>
+          <li>Google penalises in rankings</li>
+          <li>Visitors leave immediately</li>
+        </ul>
+      </div>
+      <div class="compare-card compare-https">
+        <h4>HTTPS</h4>
+        <div class="url-display">🔒 https://example.com</div>
+        <ul>
+          <li>All data fully encrypted</li>
+          <li>Intercepted data is unreadable</li>
+          <li>Server identity verified</li>
+          <li>Browser shows padlock</li>
+          <li>Google ranks it higher</li>
+          <li>Visitors trust the site</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 id="why-it-matters">Why this matters for your business</h2>
+    <p>If your website is still on HTTP in 2026, several things are actively working against you.</p>
+
+    <p><strong>Google flags your site.</strong> Chrome — used by more than 65% of web users globally — shows a "Not secure" warning in the address bar for any HTTP site. This appears before a visitor even reads a single word of your content. The message it sends is clear: this site is not maintained and cannot be trusted.</p>
+
+    <p><strong>Google ranks you lower.</strong> HTTPS has been a confirmed Google ranking signal since 2014. Two otherwise identical websites will rank differently in search results — the one with HTTPS will outrank the one without. For a business relying on Google to bring in clients, this is a direct commercial impact.</p>
+
+    <p><strong>Form submissions are exposed.</strong> If you have a contact form on an HTTP site, everything a visitor types — their name, email, phone number, message — is transmitted in plain text. Any attacker with access to that network traffic can read it. This is particularly serious if your clients share sensitive business information through your contact form.</p>
+
+    <div class="warning-callout">
+      <div class="callout-label">Real risk</div>
+      <p>Public Wi-Fi networks — coffee shops, airports, hotels — are a common target for traffic interception. A potential client filling in your contact form on hotel Wi-Fi is sending their details completely exposed if your site uses HTTP. HTTPS eliminates this risk entirely.</p>
+    </div>
+
+    <h2 id="how-you-get-it">How you get HTTPS</h2>
+    <p>To enable HTTPS, your website needs a <strong>TLS certificate</strong> — a digital ID that proves your server is who it claims to be and enables the encryption. This is what the padlock in your browser actually represents.</p>
+    <p>TLS certificates used to cost money and require manual installation and annual renewal. That changed significantly around 2016 when a non-profit called Let's Encrypt began issuing free, automatic certificates. Today, every major hosting platform — Cloudflare, Netlify, and others — issues and renews TLS certificates automatically for every site they host.</p>
+    <p>In practice, this means that if you build and host your website through a modern platform, HTTPS is simply on by default. You don't pay for it, you don't manage it, and you don't have to think about it renewing. It just works.</p>
+
+    <div class="callout">
+      <div class="callout-label">At Sysvyn</div>
+      <p>Every website we build and host comes with HTTPS active from day one. TLS certificates are provisioned automatically and renew automatically — it's never an extra cost and never something you need to chase up.</p>
+    </div>
+
+    <h2 id="check-your-site">How to check your own site right now</h2>
+    <p>Open your website in a browser. Look at the address bar. If you see a padlock icon and the address starts with <code>https://</code>, you're protected. If you see "Not secure" or the address starts with just <code>http://</code>, your site needs attention.</p>
+    <p>If your site is on HTTP and you're not sure how to fix it, the answer depends on your hosting setup. Some older hosting providers require you to manually request and install a certificate. Others have a simple toggle in their settings. Moving to a modern hosting platform like Cloudflare Pages typically solves it automatically as part of the migration.</p>
+
+    <div class="sec-callout">
+      <div class="callout-label">Quick check</div>
+      <p>Type your website address into your browser right now. If you don't see a padlock, contact your hosting provider and ask specifically: "How do I enable HTTPS and get an SSL certificate for my site?" Most providers can walk you through it in minutes.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="key-takeaways">
+      <h3>Key takeaways</h3>
+      <ul>
+        <li>HTTP sends data as plain text — anyone intercepting the traffic can read it</li>
+        <li>HTTPS encrypts all data between your browser and the server</li>
+        <li>The encryption in HTTPS is provided by TLS (often still called SSL)</li>
+        <li>Google flags HTTP sites as "Not secure" and ranks them lower in search results</li>
+        <li>Contact form submissions on HTTP sites are transmitted in plain text — a real security risk</li>
+        <li>TLS certificates are now free and automatic on all modern hosting platforms</li>
+        <li>If your site doesn't have the padlock, fix it — it's usually quick and costs nothing</li>
+      </ul>
+    </div>
+
+    <h2 id="next">What's next</h2>
+    <p>Now that you understand what HTTPS is and why it matters, the natural next question is: how exactly does the encryption work? That's covered in the TLS article — it goes deeper into the handshake process and how the padlock actually gets there.</p>
+    <p>And if you're wondering how your browser even finds the right server in the first place before any of this encryption happens, that's DNS — covered in the networking article below.</p>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="article-sidebar">
+    <div class="sidebar-toc">
+      <h4>In this article</h4>
+      <ul class="toc-list">
+        <li><a href="#what-is-http">What HTTP actually is</a></li>
+        <li><a href="#what-is-https">What HTTPS adds</a></li>
+        <li><a href="#why-it-matters">Why it matters for your business</a></li>
+        <li><a href="#how-you-get-it">How you get HTTPS</a></li>
+        <li><a href="#check-your-site">Check your own site</a></li>
+        <li><a href="#next">What's next</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-cta">
+      <p>Is your current site still on HTTP? We can migrate it to a secure, modern setup — usually in under 24 hours.</p>
+      <a href="index.html#contact">Talk to us →</a>
+    </div>
+
+    <div class="sidebar-related">
+      <h4>Related articles</h4>
+      <a href="signal-tls.html" class="related-link">
+        <span class="related-icon">🔐</span>
+        <span class="related-title">What is TLS? The padlock in your browser, explained</span>
+      </a>
+      <a href="signal-dns.html" class="related-link">
+        <span class="related-icon">🗺️</span>
+        <span class="related-title">DNS: The internet's phone book</span>
+      </a>
+      <a href="signal-ai-explained.html" class="related-link">
+        <span class="related-icon">🤖</span>
+        <span class="related-title">What is AI, really? An honest explanation</span>
+      </a>
+    </div>
+  </aside>
+</div>
+
+<!-- FOOTER -->
+<div class="article-footer">
+  <a href="index.html" class="article-footer-logo">Sys<span>vyn</span></a>
+  <p>Part of <a href="signal.html">The Signal</a> — tech explained for humans</p>
+  <a href="index.html#contact">Get in touch →</a>
+</div>
+
+</body>
+</html>
