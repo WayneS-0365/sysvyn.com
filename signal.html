@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>The Signal — Tech explained for humans | Sysvyn</title>
-  <meta name="description" content="Plain-English articles about the technology that runs your business. No jargon, no textbooks — just clear explanations from Sysvyn."/>
+  <meta name="description" content="Plain-English articles about the technology that runs your business. AI, security, networking and more — no jargon, just clarity."/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <style>
@@ -23,6 +23,10 @@
       --text-mid:     #334d3e;
       --text-light:   #6b8f78;
       --border:       #d1fae5;
+      --ai-dark:      #1e1b4b;
+      --ai-mid:       #4338ca;
+      --ai-light:     #818cf8;
+      --ai-pale:      #ede9fe;
     }
 
     html { scroll-behavior: smooth; }
@@ -54,9 +58,15 @@
       position: relative; overflow: hidden;
     }
     .page-hero::before {
-      content: '';
-      position: absolute; inset: 0;
+      content: ''; position: absolute; inset: 0;
       background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(34,197,94,0.15), transparent);
+      pointer-events: none;
+    }
+    /* AI shimmer on hero */
+    .page-hero::after {
+      content: ''; position: absolute; top: -40%; right: -10%;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,102,241,0.12), transparent 70%);
       pointer-events: none;
     }
 
@@ -77,67 +87,103 @@
       color: white; margin-bottom: 1.25rem;
       max-width: 700px; position: relative; z-index: 1;
     }
-
     .page-hero p {
       font-size: 1.1rem; color: rgba(255,255,255,0.65);
-      line-height: 1.75; max-width: 540px; font-weight: 300;
-      position: relative; z-index: 1;
+      line-height: 1.75; max-width: 560px; font-weight: 300;
+      position: relative; z-index: 1; margin-bottom: 2rem;
     }
+
+    /* AI new badge on hero */
+    .hero-new-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(99,102,241,0.2); border: 1px solid rgba(129,140,248,0.4);
+      color: var(--ai-light); padding: 0.4rem 1rem; border-radius: 100px;
+      font-size: 0.82rem; font-weight: 600; position: relative; z-index: 1;
+    }
+    .hero-new-badge::before { content: '✦'; }
 
     /* FILTER BAR */
     .filter-bar {
-      background: var(--off-white);
-      border-bottom: 1px solid var(--border);
+      background: var(--off-white); border-bottom: 1px solid var(--border);
       padding: 1.25rem 4rem;
       display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
       position: sticky; top: 72px; z-index: 50;
     }
-
     .filter-label { font-size: 0.8rem; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.06em; margin-right: 0.5rem; }
+    .filter-btn { padding: 0.4rem 1rem; border-radius: 100px; border: 1px solid var(--border); background: var(--white); font-size: 0.82rem; font-weight: 500; color: var(--text-mid); cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+    .filter-btn.active, .filter-btn:hover { background: var(--green-main); color: white; border-color: var(--green-main); }
+    .filter-btn.ai-btn { border-color: var(--ai-pale); }
+    .filter-btn.ai-btn.active, .filter-btn.ai-btn:hover { background: var(--ai-mid); border-color: var(--ai-mid); color: white; }
 
-    .filter-btn {
-      padding: 0.4rem 1rem; border-radius: 100px;
-      border: 1px solid var(--border); background: var(--white);
-      font-size: 0.82rem; font-weight: 500; color: var(--text-mid);
-      cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif;
-    }
-    .filter-btn.active, .filter-btn:hover {
-      background: var(--green-main); color: white; border-color: var(--green-main);
-    }
+    /* ARTICLES SECTION */
+    .articles-section { padding: 3.5rem 4rem 6rem; max-width: 1200px; margin: 0 auto; }
 
-    /* ARTICLES LAYOUT */
-    .articles-section {
-      padding: 3.5rem 4rem 6rem;
-      max-width: 1200px; margin: 0 auto;
+    /* AI SPOTLIGHT STRIP */
+    .ai-spotlight {
+      background: linear-gradient(135deg, var(--ai-dark), #312e81);
+      border-radius: 20px; padding: 2.5rem; margin-bottom: 3rem;
+      display: flex; align-items: center; gap: 2.5rem;
+      border: 1px solid rgba(129,140,248,0.2);
+      position: relative; overflow: hidden;
     }
+    .ai-spotlight::before {
+      content: ''; position: absolute; top: -60%; right: -10%;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%);
+      pointer-events: none;
+    }
+    .ai-spotlight-icon { font-size: 4rem; flex-shrink: 0; position: relative; z-index: 1; }
+    .ai-spotlight-text { flex: 1; position: relative; z-index: 1; }
+    .ai-spotlight-label {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(129,140,248,0.2); border: 1px solid rgba(129,140,248,0.3);
+      color: var(--ai-light); padding: 0.25rem 0.75rem; border-radius: 100px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; margin-bottom: 0.75rem;
+    }
+    .ai-spotlight-label::before { content: '✦'; }
+    .ai-spotlight-text h2 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; color: white; margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+    .ai-spotlight-text p { font-size: 0.92rem; color: rgba(255,255,255,0.65); line-height: 1.65; max-width: 500px; }
+    .ai-spotlight-cta {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: var(--ai-mid); color: white; padding: 0.65rem 1.25rem;
+      border-radius: 8px; font-weight: 600; font-size: 0.88rem;
+      text-decoration: none; transition: all 0.2s; flex-shrink: 0;
+      position: relative; z-index: 1;
+    }
+    .ai-spotlight-cta:hover { background: #4f46e5; transform: translateY(-2px); }
+    .ai-spotlight-cta::after { content: '→'; }
 
     /* Featured article */
     .featured-article {
       display: grid; grid-template-columns: 1fr 1.4fr;
       border: 1px solid var(--border); border-radius: 20px;
       overflow: hidden; margin-bottom: 3rem;
-      text-decoration: none; transition: all 0.3s;
-      background: var(--white);
+      text-decoration: none; transition: all 0.3s; background: var(--white);
     }
     .featured-article:hover { border-color: var(--green-main); box-shadow: 0 16px 48px rgba(22,163,74,0.12); transform: translateY(-3px); }
+    .featured-article.ai-featured:hover { border-color: var(--ai-mid); box-shadow: 0 16px 48px rgba(67,56,202,0.15); }
 
     .featured-banner {
       display: flex; align-items: center; justify-content: center;
-      font-size: 5rem; background: linear-gradient(135deg, #0a3d1f, #166534);
-      min-height: 280px;
+      font-size: 5rem; min-height: 280px;
     }
+    .banner-tls    { background: linear-gradient(135deg, #0a3d1f, #166534); }
+    .banner-dns    { background: linear-gradient(135deg, #1e3a5f, #2563eb); }
+    .banner-https  { background: linear-gradient(135deg, #4a1942, #9d174d); }
+    .banner-cloud  { background: linear-gradient(135deg, #1a3a4a, #0891b2); }
+    .banner-domain { background: linear-gradient(135deg, #3b1f0a, #92400e); }
+    .banner-cdn    { background: linear-gradient(135deg, #1a1a4a, #5b21b6); }
+    .banner-ai     { background: linear-gradient(135deg, #1e1b4b, #4338ca); }
 
     .featured-body { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
 
-    .article-tag {
-      display: inline-block; padding: 0.25rem 0.75rem; border-radius: 100px;
-      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
+    .article-tag { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 100px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem; }
     .tag-security     { background: #fef3c7; color: #92400e; }
     .tag-networking   { background: #dbeafe; color: #1e40af; }
     .tag-fundamentals { background: var(--green-pale); color: var(--green-mid); }
     .tag-infrastructure { background: #e0f2fe; color: #0369a1; }
+    .tag-ai           { background: var(--ai-pale); color: var(--ai-mid); }
 
     .featured-tag {
       display: inline-flex; align-items: center; gap: 0.4rem;
@@ -146,38 +192,33 @@
       font-size: 0.72rem; font-weight: 600; margin-bottom: 1rem;
     }
     .featured-tag::before { content: '⭐'; font-size: 0.75rem; }
+    .featured-tag.ai-tag { background: var(--ai-pale); color: var(--ai-mid); }
+    .featured-tag.ai-tag::before { content: '✦'; }
 
-    .featured-body h2 {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: 1.75rem; line-height: 1.2; color: var(--text-dark);
-      letter-spacing: -0.02em; margin-bottom: 0.85rem;
-    }
-
+    .featured-body h2 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.75rem; line-height: 1.2; color: var(--text-dark); letter-spacing: -0.02em; margin-bottom: 0.85rem; }
     .featured-body p { font-size: 0.95rem; color: var(--text-light); line-height: 1.7; margin-bottom: 1.5rem; }
-
-    .article-meta-row {
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
-    }
+    .article-meta-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
     .article-meta-info { font-size: 0.8rem; color: var(--text-light); }
-    .read-link {
-      display: inline-flex; align-items: center; gap: 0.35rem;
-      font-size: 0.85rem; font-weight: 600; color: var(--green-main);
+    .read-link { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.85rem; font-weight: 600; color: var(--green-main); }
+    .read-link.ai-link { color: var(--ai-mid); }
+    .read-link::after { content: '→'; }
+
+    /* Section labels */
+    .section-divider {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.5rem; margin-top: 1rem;
     }
-    .read-link::after { content: '→'; transition: margin 0.2s; }
-    .featured-article:hover .read-link::after { margin-left: 3px; }
+    .section-divider-label {
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; white-space: nowrap;
+      padding: 0.3rem 0.75rem; border-radius: 100px;
+    }
+    .label-green { background: var(--green-pale); color: var(--green-mid); }
+    .label-ai    { background: var(--ai-pale); color: var(--ai-mid); }
+    .section-divider-line { flex: 1; height: 1px; background: var(--border); }
 
     /* Articles grid */
-    .articles-grid-label {
-      font-size: 0.8rem; font-weight: 600; color: var(--text-light);
-      text-transform: uppercase; letter-spacing: 0.06em;
-      margin-bottom: 1.5rem; padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .articles-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem; margin-bottom: 3rem;
-    }
+    .articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
 
     .article-card {
       border: 1px solid var(--border); border-radius: 16px;
@@ -185,76 +226,35 @@
       display: flex; flex-direction: column; background: var(--white);
     }
     .article-card:hover { border-color: var(--green-main); box-shadow: 0 12px 36px rgba(22,163,74,0.1); transform: translateY(-3px); }
-
-    .card-banner {
-      height: 110px; display: flex; align-items: center;
-      justify-content: center; font-size: 2.5rem;
-    }
-    .banner-tls    { background: linear-gradient(135deg, #0a3d1f, #166534); }
-    .banner-dns    { background: linear-gradient(135deg, #1e3a5f, #2563eb); }
-    .banner-https  { background: linear-gradient(135deg, #4a1942, #9d174d); }
-    .banner-cloud  { background: linear-gradient(135deg, #1a3a4a, #0891b2); }
-    .banner-domain { background: linear-gradient(135deg, #3b1f0a, #92400e); }
-    .banner-cdn    { background: linear-gradient(135deg, #1a1a4a, #5b21b6); }
-
-    .card-body { padding: 1.4rem; flex: 1; display: flex; flex-direction: column; }
-    .card-body h3 {
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      font-size: 1rem; line-height: 1.35; color: var(--text-dark);
-      margin-bottom: 0.6rem;
-    }
-    .card-body p { font-size: 0.85rem; color: var(--text-light); line-height: 1.6; flex: 1; }
-    .card-footer {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border);
-    }
-    .card-meta { font-size: 0.75rem; color: var(--text-light); }
-    .card-read { font-size: 0.78rem; font-weight: 600; color: var(--green-main); display: flex; align-items: center; gap: 0.2rem; }
-    .card-read::after { content: '→'; }
-
-    /* Coming soon cards */
+    .article-card.ai-card:hover { border-color: var(--ai-mid); box-shadow: 0 12px 36px rgba(67,56,202,0.12); }
     .article-card.coming-soon { opacity: 0.55; cursor: default; }
     .article-card.coming-soon:hover { transform: none; box-shadow: none; border-color: var(--border); }
-    .soon-badge {
-      display: inline-flex; align-items: center; gap: 0.3rem;
-      font-size: 0.72rem; color: var(--text-light);
-      background: var(--off-white); padding: 0.2rem 0.6rem;
-      border-radius: 100px; border: 1px solid var(--border);
-    }
+
+    .card-banner { height: 110px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
+
+    .card-body { padding: 1.4rem; flex: 1; display: flex; flex-direction: column; }
+    .card-body h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; line-height: 1.35; color: var(--text-dark); margin-bottom: 0.6rem; }
+    .card-body p { font-size: 0.85rem; color: var(--text-light); line-height: 1.6; flex: 1; }
+    .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+    .card-meta { font-size: 0.75rem; color: var(--text-light); }
+    .card-read { font-size: 0.78rem; font-weight: 600; color: var(--green-main); display: flex; align-items: center; gap: 0.2rem; }
+    .card-read.ai-read { color: var(--ai-mid); }
+    .card-read::after { content: '→'; }
+    .soon-badge { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; color: var(--text-light); background: var(--off-white); padding: 0.2rem 0.6rem; border-radius: 100px; border: 1px solid var(--border); }
 
     /* Newsletter strip */
-    .newsletter-strip {
-      background: var(--green-dark); border-radius: 20px;
-      padding: 3rem; display: flex; align-items: center;
-      justify-content: space-between; gap: 2rem; flex-wrap: wrap;
-    }
-    .newsletter-strip h3 {
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: 1.5rem; color: white; margin-bottom: 0.5rem;
-    }
+    .newsletter-strip { background: var(--green-dark); border-radius: 20px; padding: 3rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+    .newsletter-strip h3 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; color: white; margin-bottom: 0.5rem; }
     .newsletter-strip p { color: rgba(255,255,255,0.6); font-size: 0.95rem; max-width: 420px; }
     .newsletter-form { display: flex; gap: 0.75rem; flex-shrink: 0; flex-wrap: wrap; }
-    .newsletter-form input {
-      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 8px; padding: 0.7rem 1.1rem; color: white;
-      font-family: 'DM Sans', sans-serif; font-size: 0.9rem; outline: none;
-      min-width: 240px; transition: border-color 0.2s;
-    }
+    .newsletter-form input { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 0.7rem 1.1rem; color: white; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; outline: none; min-width: 240px; transition: border-color 0.2s; }
     .newsletter-form input::placeholder { color: rgba(255,255,255,0.35); }
     .newsletter-form input:focus { border-color: var(--green-light); }
-    .newsletter-form button {
-      background: var(--green-main); color: white; border: none;
-      padding: 0.7rem 1.4rem; border-radius: 8px; font-weight: 600;
-      font-size: 0.9rem; cursor: pointer; font-family: 'DM Sans', sans-serif;
-      transition: background 0.2s; white-space: nowrap;
-    }
+    .newsletter-form button { background: var(--green-main); color: white; border: none; padding: 0.7rem 1.4rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.2s; white-space: nowrap; }
     .newsletter-form button:hover { background: var(--green-light); }
 
     /* FOOTER */
-    footer {
-      background: var(--text-dark); padding: 2.5rem 4rem;
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
-    }
+    footer { background: var(--text-dark); padding: 2.5rem 4rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
     .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; color: white; text-decoration: none; }
     .footer-logo span { color: var(--green-light); }
     .footer-links { display: flex; gap: 1.5rem; list-style: none; }
@@ -263,20 +263,13 @@
     .footer-copy { color: rgba(255,255,255,0.25); font-size: 0.78rem; width: 100%; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.25rem; margin-top: 0.25rem; }
 
     /* RESPONSIVE */
-    @media (max-width: 1024px) {
-      .articles-grid { grid-template-columns: repeat(2, 1fr); }
-    }
+    @media (max-width: 1024px) { .articles-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 900px) {
       nav { padding: 1rem 1.5rem; }
       .nav-links, .nav-cta { display: none; }
       .nav-mobile-toggle { display: flex; flex-direction: column; gap: 4px; }
       .nav-mobile-toggle span { width: 22px; height: 2px; background: var(--text-dark); border-radius: 2px; display: block; }
-      .nav-mobile-menu.open {
-        display: flex; flex-direction: column;
-        position: fixed; top: 60px; left: 0; right: 0;
-        background: white; border-bottom: 1px solid var(--border);
-        padding: 1rem 1.5rem; z-index: 99;
-      }
+      .nav-mobile-menu.open { display: flex; flex-direction: column; position: fixed; top: 60px; left: 0; right: 0; background: white; border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; z-index: 99; }
       .nav-mobile-menu.open a { padding: 0.85rem 0; color: var(--text-mid); text-decoration: none; font-weight: 500; border-bottom: 1px solid var(--border); }
       .nav-mobile-menu.open a:last-child { border: none; color: var(--green-main); font-weight: 600; }
       .page-hero { padding: 7rem 1.5rem 3rem; }
@@ -286,11 +279,14 @@
       .featured-banner { min-height: 160px; }
       .featured-body { padding: 1.75rem; }
       .articles-grid { grid-template-columns: 1fr; }
+      .ai-spotlight { flex-direction: column; padding: 2rem; }
       .newsletter-strip { flex-direction: column; padding: 2rem; }
       .newsletter-form { width: 100%; }
       .newsletter-form input { min-width: unset; flex: 1; }
       footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
     }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -323,13 +319,15 @@
 <div class="page-hero">
   <div class="hero-eyebrow">The Signal</div>
   <h1>Tech explained<br>for humans</h1>
-  <p>No jargon. No textbooks. Plain-English articles about the technology that runs your business — written by people who actually work with it every day.</p>
+  <p>No jargon. No textbooks. Plain-English articles about the technology that runs your business — now including AI, explained the way it should be.</p>
+  <span class="hero-new-badge">Now covering Artificial Intelligence</span>
 </div>
 
 <!-- FILTER BAR -->
 <div class="filter-bar">
   <span class="filter-label">Filter</span>
   <button class="filter-btn active" onclick="filterArticles('all', this)">All</button>
+  <button class="filter-btn ai-btn" onclick="filterArticles('ai', this)">✦ AI</button>
   <button class="filter-btn" onclick="filterArticles('security', this)">Security</button>
   <button class="filter-btn" onclick="filterArticles('networking', this)">Networking</button>
   <button class="filter-btn" onclick="filterArticles('fundamentals', this)">Fundamentals</button>
@@ -339,26 +337,87 @@
 <!-- ARTICLES -->
 <div class="articles-section">
 
-  <!-- Featured -->
-  <a href="signal-tls.html" class="featured-article" data-cat="security">
-    <div class="featured-banner">🔐</div>
+  <!-- AI SPOTLIGHT -->
+  <div class="ai-spotlight" id="ai-spotlight-strip" data-cat="ai">
+    <div class="ai-spotlight-icon">🤖</div>
+    <div class="ai-spotlight-text">
+      <span class="ai-spotlight-label">New category</span>
+      <h2>Artificial Intelligence — explained without the hype</h2>
+      <p>AI is everywhere. But most explanations are either too technical or too dramatic. We cover AI the Sysvyn way — plain English, practical focus, no buzzwords. What it actually is, what it can do for your business, and what to ignore.</p>
+    </div>
+    <a href="signal-ai-explained.html" class="ai-spotlight-cta">Read first article</a>
+  </div>
+
+  <!-- FEATURED — AI article -->
+  <a href="signal-ai-explained.html" class="featured-article ai-featured" data-cat="ai">
+    <div class="featured-banner banner-ai">🤖</div>
     <div class="featured-body">
-      <span class="featured-tag">Featured Article</span>
-      <span class="article-tag tag-security" style="display:inline-block; margin-bottom:0.75rem;">Security</span>
-      <h2>What is TLS? The padlock in your browser, explained simply</h2>
-      <p>Every time you see that little padlock in your browser's address bar, TLS is working behind the scenes. Think of it like a tamper-proof, sealed envelope — only the recipient can open it, and if anyone tampers with it along the way, both parties know. Here's exactly how it works.</p>
+      <span class="featured-tag ai-tag">New · AI</span>
+      <span class="article-tag tag-ai">Artificial Intelligence</span>
+      <h2>What is AI, really? An honest explanation without the hype</h2>
+      <p>Everyone's talking about AI — but what is it actually doing? We skip the science fiction and explain how AI works in plain English, using everyday analogies. What it's genuinely good at, where it falls flat, and what it means for your business right now.</p>
       <div class="article-meta-row">
-        <span class="article-meta-info">5 min read · Security basics · May 2026</span>
-        <span class="read-link">Read article</span>
+        <span class="article-meta-info">6 min read · AI basics · May 2026</span>
+        <span class="read-link ai-link">Read article</span>
       </div>
     </div>
   </a>
 
-  <div class="articles-grid-label">All articles</div>
+  <!-- ALL ARTICLES GRID -->
+  <div class="section-divider">
+    <span class="section-divider-label label-ai">✦ AI Articles</span>
+    <span class="section-divider-line"></span>
+  </div>
 
   <div class="articles-grid" id="articlesGrid">
 
-    <!-- Published: TLS -->
+    <!-- AI: published -->
+    <a href="signal-ai-explained.html" class="article-card ai-card" data-cat="ai">
+      <div class="card-banner banner-ai">🤖</div>
+      <div class="card-body">
+        <span class="article-tag tag-ai">AI</span>
+        <h3>What is AI, really? An honest explanation without the hype</h3>
+        <p>Plain English. No science fiction. Just what AI actually is and what it means for your business today.</p>
+        <div class="card-footer">
+          <span class="card-meta">6 min · May 2026</span>
+          <span class="card-read ai-read">Read</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- AI: coming soon -->
+    <div class="article-card ai-card coming-soon" data-cat="ai">
+      <div class="card-banner banner-ai">🛠️</div>
+      <div class="card-body">
+        <span class="article-tag tag-ai">AI</span>
+        <h3>ChatGPT, Copilot, Claude — what's the difference?</h3>
+        <p>There are dozens of AI tools out there. Here's a plain-English guide to the main ones and which is right for you.</p>
+        <div class="card-footer"><span class="soon-badge">⏳ Coming soon</span></div>
+      </div>
+    </div>
+
+    <!-- AI: coming soon -->
+    <div class="article-card ai-card coming-soon" data-cat="ai">
+      <div class="card-banner banner-ai">💼</div>
+      <div class="card-body">
+        <span class="article-tag tag-ai">AI</span>
+        <h3>How small businesses are actually using AI right now</h3>
+        <p>Not theory. Real, practical examples of what South African small businesses are doing with AI today.</p>
+        <div class="card-footer"><span class="soon-badge">⏳ Coming soon</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TECH ARTICLES -->
+  <div class="section-divider" style="margin-top:1rem;">
+    <span class="section-divider-label label-green">Tech Explainers</span>
+    <span class="section-divider-line"></span>
+  </div>
+
+  <div class="articles-grid" id="techGrid">
+
+    <!-- TLS -->
     <a href="signal-tls.html" class="article-card" data-cat="security">
       <div class="card-banner banner-tls">🔐</div>
       <div class="card-body">
@@ -372,13 +431,13 @@
       </div>
     </a>
 
-    <!-- Published: DNS -->
+    <!-- DNS -->
     <a href="signal-dns.html" class="article-card" data-cat="networking">
       <div class="card-banner banner-dns">🗺️</div>
       <div class="card-body">
         <span class="article-tag tag-networking">Networking</span>
         <h3>DNS: The internet's phone book</h3>
-        <p>When you type a website address, how does your computer know where to go? DNS translates names into addresses — in milliseconds.</p>
+        <p>When you type a website address, how does your computer know where to go? DNS translates names into addresses in milliseconds.</p>
         <div class="card-footer">
           <span class="card-meta">4 min · May 2026</span>
           <span class="card-read">Read</span>
@@ -386,13 +445,13 @@
       </div>
     </a>
 
-    <!-- Published: HTTP vs HTTPS -->
+    <!-- HTTPS -->
     <a href="signal-ssl.html" class="article-card" data-cat="security">
       <div class="card-banner banner-https">🛡️</div>
       <div class="card-body">
         <span class="article-tag tag-security">Security</span>
         <h3>HTTP vs HTTPS — what's the real difference?</h3>
-        <p>Your website might be leaking information to anyone watching. Here's why HTTPS matters and what happens when your site doesn't have it.</p>
+        <p>Your website might be leaking information to anyone watching. Here's why HTTPS matters.</p>
         <div class="card-footer">
           <span class="card-meta">3 min · May 2026</span>
           <span class="card-read">Read</span>
@@ -400,42 +459,36 @@
       </div>
     </a>
 
-    <!-- Coming soon: Cloud -->
+    <!-- Cloud — coming soon -->
     <div class="article-card coming-soon" data-cat="fundamentals">
       <div class="card-banner banner-cloud">☁️</div>
       <div class="card-body">
         <span class="article-tag tag-fundamentals">Fundamentals</span>
         <h3>What actually is "the cloud"?</h3>
         <p>Everyone talks about the cloud, but nobody explains what it actually means for your business.</p>
-        <div class="card-footer">
-          <span class="soon-badge">⏳ Coming soon</span>
-        </div>
+        <div class="card-footer"><span class="soon-badge">⏳ Coming soon</span></div>
       </div>
     </div>
 
-    <!-- Coming soon: Domains -->
+    <!-- Domains — coming soon -->
     <div class="article-card coming-soon" data-cat="fundamentals">
       <div class="card-banner banner-domain">🌐</div>
       <div class="card-body">
         <span class="article-tag tag-fundamentals">Fundamentals</span>
         <h3>What's the difference between a domain and hosting?</h3>
-        <p>Most people use them interchangeably — but they're completely different things. Here's the distinction that matters.</p>
-        <div class="card-footer">
-          <span class="soon-badge">⏳ Coming soon</span>
-        </div>
+        <p>Most people use them interchangeably — but they're completely different things.</p>
+        <div class="card-footer"><span class="soon-badge">⏳ Coming soon</span></div>
       </div>
     </div>
 
-    <!-- Coming soon: CDN -->
+    <!-- CDN — coming soon -->
     <div class="article-card coming-soon" data-cat="infrastructure">
       <div class="card-banner banner-cdn">⚡</div>
       <div class="card-body">
         <span class="article-tag tag-infrastructure">Infrastructure</span>
         <h3>What is a CDN and why does it make your site faster?</h3>
         <p>A Content Delivery Network sounds complicated. It isn't. Here's the simple version.</p>
-        <div class="card-footer">
-          <span class="soon-badge">⏳ Coming soon</span>
-        </div>
+        <div class="card-footer"><span class="soon-badge">⏳ Coming soon</span></div>
       </div>
     </div>
 
@@ -445,7 +498,7 @@
   <div class="newsletter-strip">
     <div>
       <h3>New articles, straight to you</h3>
-      <p>Get notified when new Signal articles go live. No spam — just plain-English tech explainers, straight to your inbox.</p>
+      <p>Get notified when new Signal articles go live — including our AI series. No spam, just plain-English tech, straight to your inbox.</p>
     </div>
     <div class="newsletter-form">
       <input type="email" id="newsletterEmail" placeholder="your@email.com" />
@@ -476,35 +529,47 @@
   toggle.addEventListener('click', () => menu.classList.toggle('open'));
   menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
 
-  // Category filter
+  // Filter — handles both grids and the AI spotlight strip
   function filterArticles(cat, btn) {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+
+    // Featured article
     const featured = document.querySelector('.featured-article');
     if (featured) {
       featured.style.display = (cat === 'all' || featured.dataset.cat === cat) ? 'grid' : 'none';
     }
-    document.querySelectorAll('#articlesGrid .article-card, #articlesGrid .coming-soon').forEach(card => {
+
+    // AI spotlight strip
+    const spotlight = document.getElementById('ai-spotlight-strip');
+    if (spotlight) {
+      spotlight.style.display = (cat === 'all' || cat === 'ai') ? 'flex' : 'none';
+    }
+
+    // Section dividers — show/hide based on filter
+    document.querySelectorAll('.section-divider').forEach(d => {
+      d.style.display = cat === 'all' ? 'flex' : 'none';
+    });
+
+    // All cards in both grids
+    document.querySelectorAll('#articlesGrid .article-card, #articlesGrid .coming-soon, #techGrid .article-card, #techGrid .coming-soon').forEach(card => {
       const match = cat === 'all' || card.dataset.cat === cat;
       card.style.display = match ? 'flex' : 'none';
     });
   }
 
-  // Newsletter subscribe (hooks into Formspree)
+  // Newsletter
   function subscribeNewsletter() {
     const email = document.getElementById('newsletterEmail').value.trim();
     const btn = document.querySelector('.newsletter-form button');
-    if (!email || !email.includes('@')) {
-      alert('Please enter a valid email address.');
-      return;
-    }
+    if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
     fetch('https://formspree.io/f/xlgwlyjo', {
       method: 'POST',
-      body: JSON.stringify({ email, _subject: 'Signal newsletter signup', source: 'The Signal newsletter strip' }),
+      body: JSON.stringify({ email, _subject: 'Signal newsletter signup', source: 'The Signal newsletter' }),
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
     });
     document.getElementById('newsletterEmail').value = '';
-    btn.textContent = '✓ You\'re on the list!';
+    btn.textContent = "✓ You're on the list!";
     btn.style.background = '#0a3d1f';
     setTimeout(() => { btn.textContent = 'Notify me'; btn.style.background = ''; }, 5000);
   }
@@ -512,21 +577,12 @@
   // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.animation = 'fadeUp 0.5s ease forwards';
-        observer.unobserve(e.target);
-      }
+      if (e.isIntersecting) { e.target.style.animation = 'fadeUp 0.5s ease forwards'; observer.unobserve(e.target); }
     });
   }, { threshold: 0.08 });
-
-  document.querySelectorAll('.article-card, .featured-article').forEach(el => {
+  document.querySelectorAll('.article-card, .featured-article, .ai-spotlight').forEach(el => {
     el.style.opacity = '0'; observer.observe(el);
   });
-
-  // Define fadeUp for scroll reveal
-  const style = document.createElement('style');
-  style.textContent = '@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }';
-  document.head.appendChild(style);
 </script>
 </body>
 </html>

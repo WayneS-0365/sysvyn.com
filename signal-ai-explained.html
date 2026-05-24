@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>What is AI, really? — The Signal by Sysvyn</title>
+  <meta name="description" content="AI explained simply — what it actually is, how it works, and what it means for your business. No hype, no jargon."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark:   #0a3d1f;
+      --green-mid:    #166534;
+      --green-main:   #16a34a;
+      --green-light:  #22c55e;
+      --green-pale:   #dcfce7;
+      --white:        #ffffff;
+      --off-white:    #f8faf8;
+      --text-dark:    #0f1f14;
+      --text-mid:     #334d3e;
+      --text-light:   #6b8f78;
+      --border:       #d1fae5;
+      --ai-dark:      #1e1b4b;
+      --ai-mid:       #4338ca;
+      --ai-light:     #818cf8;
+      --ai-pale:      #ede9fe;
+      --ai-border:    #c7d2fe;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text-dark); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 4rem;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; color: var(--green-mid); text-decoration: none; }
+    .nav-logo span { color: var(--green-light); }
+    .nav-back { display: flex; align-items: center; gap: 0.4rem; color: var(--ai-mid); font-weight: 500; font-size: 0.9rem; text-decoration: none; transition: gap 0.2s; }
+    .nav-back:hover { gap: 0.7rem; }
+    .nav-back::before { content: '←'; }
+    .nav-signal-tag { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--ai-pale); color: var(--ai-mid); padding: 0.3rem 0.75rem; border-radius: 100px; font-size: 0.78rem; font-weight: 600; }
+    .nav-signal-tag::before { content: '✦'; }
+
+    /* ARTICLE HERO */
+    .article-hero {
+      padding: 9rem 4rem 4rem;
+      background: linear-gradient(160deg, var(--ai-dark) 0%, #312e81 60%, #1e1b4b 100%);
+      border-bottom: 1px solid var(--ai-border);
+      position: relative; overflow: hidden;
+    }
+    .article-hero::before {
+      content: ''; position: absolute; top: -30%; right: -10%;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%);
+      pointer-events: none;
+    }
+
+    .article-breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-bottom: 2rem; position: relative; z-index: 1; }
+    .article-breadcrumb a { color: var(--ai-light); text-decoration: none; }
+    .article-breadcrumb a:hover { text-decoration: underline; }
+    .article-breadcrumb span { color: rgba(255,255,255,0.25); }
+
+    .article-tag-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(129,140,248,0.2); border: 1px solid rgba(129,140,248,0.35);
+      color: var(--ai-light); padding: 0.3rem 0.85rem; border-radius: 100px;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em;
+      text-transform: uppercase; margin-bottom: 1.25rem;
+      position: relative; z-index: 1;
+    }
+    .article-tag-pill::before { content: '✦'; }
+
+    .article-hero h1 {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.08;
+      letter-spacing: -0.02em; color: white;
+      max-width: 800px; margin-bottom: 1.25rem;
+      position: relative; z-index: 1;
+    }
+
+    .article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 2rem; position: relative; z-index: 1; }
+    .article-meta strong { color: rgba(255,255,255,0.8); }
+
+    .article-summary {
+      font-size: 1.1rem; color: rgba(255,255,255,0.75); line-height: 1.75;
+      max-width: 700px; font-weight: 300;
+      border-left: 3px solid var(--ai-mid); padding-left: 1.25rem;
+      position: relative; z-index: 1;
+    }
+
+    /* ARTICLE LAYOUT */
+    .article-layout { display: grid; grid-template-columns: 1fr 280px; gap: 4rem; max-width: 1100px; margin: 0 auto; padding: 4rem 4rem 6rem; align-items: start; }
+
+    .article-body { max-width: 720px; }
+
+    .article-body h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.5rem; color: var(--text-dark); margin: 2.5rem 0 1rem; letter-spacing: -0.01em; }
+    .article-body h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.15rem; color: var(--text-dark); margin: 2rem 0 0.75rem; }
+    .article-body p { font-size: 1rem; color: var(--text-mid); line-height: 1.85; margin-bottom: 1.25rem; font-weight: 300; }
+    .article-body strong { color: var(--text-dark); font-weight: 500; }
+
+    .callout { background: var(--green-pale); border: 1px solid var(--border); border-left: 4px solid var(--green-main); border-radius: 0 12px 12px 0; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .callout-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--green-mid); margin-bottom: 0.5rem; }
+    .callout p { margin: 0; color: var(--green-mid); font-size: 0.95rem; }
+
+    .ai-callout { background: var(--ai-pale); border: 1px solid var(--ai-border); border-left: 4px solid var(--ai-mid); border-radius: 0 12px 12px 0; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .ai-callout .callout-label { color: var(--ai-mid); }
+    .ai-callout p { margin: 0; color: var(--ai-mid); font-size: 0.95rem; }
+
+    .analogy-box { background: var(--ai-dark); color: white; border-radius: 14px; padding: 2rem; margin: 2rem 0; position: relative; overflow: hidden; }
+    .analogy-box::before { content: ''; position: absolute; top: -40%; right: -10%; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%); pointer-events: none; }
+    .analogy-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ai-light); margin-bottom: 0.75rem; position: relative; z-index: 1; }
+    .analogy-box p { color: rgba(255,255,255,0.8); margin: 0; font-size: 1rem; position: relative; z-index: 1; }
+    .analogy-box strong { color: white; }
+
+    .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+    .comparison-card { border-radius: 12px; padding: 1.25rem; }
+    .good-card { background: var(--green-pale); border: 1px solid var(--border); }
+    .bad-card { background: #fef2f2; border: 1px solid #fecaca; }
+    .comparison-card h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.88rem; margin-bottom: 0.75rem; }
+    .good-card h4 { color: var(--green-mid); }
+    .bad-card h4 { color: #b91c1c; }
+    .comparison-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+    .comparison-card li { font-size: 0.85rem; display: flex; align-items: flex-start; gap: 0.4rem; color: var(--text-mid); line-height: 1.4; }
+    .good-card li::before { content: '✓'; color: var(--green-main); font-weight: 700; flex-shrink: 0; }
+    .bad-card li::before { content: '✗'; color: #ef4444; font-weight: 700; flex-shrink: 0; }
+
+    .divider { height: 1px; background: var(--border); margin: 2.5rem 0; }
+
+    .key-takeaways { background: var(--ai-pale); border: 1px solid var(--ai-border); border-radius: 16px; padding: 1.75rem; margin: 2.5rem 0; }
+    .key-takeaways h3 { margin: 0 0 1rem; font-size: 1rem; color: var(--ai-mid); }
+    .key-takeaways ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .key-takeaways li { display: flex; gap: 0.5rem; font-size: 0.9rem; color: var(--text-mid); }
+    .key-takeaways li::before { content: '✦'; color: var(--ai-mid); font-weight: 700; flex-shrink: 0; }
+
+    /* SIDEBAR */
+    .article-sidebar { position: sticky; top: 100px; }
+    .sidebar-toc { background: var(--off-white); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.5rem; }
+    .sidebar-toc h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; color: var(--text-dark); margin-bottom: 1rem; letter-spacing: 0.02em; text-transform: uppercase; }
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .toc-list a { font-size: 0.85rem; color: var(--text-light); text-decoration: none; transition: color 0.2s; line-height: 1.4; display: block; padding: 0.1rem 0; }
+    .toc-list a:hover { color: var(--ai-mid); }
+
+    .sidebar-cta { background: var(--ai-dark); border-radius: 14px; padding: 1.5rem; text-align: center; margin-bottom: 1.5rem; }
+    .sidebar-cta p { font-size: 0.88rem; color: rgba(255,255,255,0.65); margin-bottom: 1rem; line-height: 1.5; }
+    .sidebar-cta a { display: block; background: var(--ai-mid); color: white; padding: 0.7rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.88rem; text-decoration: none; transition: background 0.2s; }
+    .sidebar-cta a:hover { background: #4f46e5; }
+
+    .sidebar-related { margin-top: 0; }
+    .sidebar-related h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.82rem; color: var(--text-light); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    .related-link { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid var(--border); text-decoration: none; transition: all 0.2s; }
+    .related-link:last-child { border: none; }
+    .related-link:hover .related-title { color: var(--ai-mid); }
+    .related-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+    .related-title { font-size: 0.85rem; color: var(--text-mid); line-height: 1.4; font-weight: 500; }
+
+    /* FOOTER STRIP */
+    .article-footer { background: var(--text-dark); padding: 2rem 4rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .article-footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; color: white; text-decoration: none; }
+    .article-footer-logo span { color: var(--green-light); }
+    .article-footer p { color: rgba(255,255,255,0.4); font-size: 0.82rem; }
+    .article-footer a { color: var(--ai-light); text-decoration: none; font-size: 0.82rem; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-signal-tag { display: none; }
+      .article-hero { padding: 7rem 1.5rem 3rem; }
+      .article-layout { grid-template-columns: 1fr; padding: 2rem 1.5rem 4rem; gap: 2rem; }
+      .article-sidebar { position: static; }
+      .comparison-grid { grid-template-columns: 1fr; }
+      .article-footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Sys<span>vyn</span></a>
+  <span class="nav-signal-tag">AI Series</span>
+  <a href="signal.html" class="nav-back">All articles</a>
+</nav>
+
+<!-- ARTICLE HERO -->
+<div class="article-hero">
+  <div class="article-breadcrumb">
+    <a href="index.html">Sysvyn</a>
+    <span>/</span>
+    <a href="signal.html">The Signal</a>
+    <span>/</span>
+    <span>What is AI?</span>
+  </div>
+  <span class="article-tag-pill">AI · 6 min read</span>
+  <h1>What is AI, really? An honest explanation without the hype</h1>
+  <div class="article-meta">
+    <span>By <strong>Wayne Sylvester</strong></span>
+    <span>·</span>
+    <span>May 2026</span>
+    <span>·</span>
+    <span>AI basics</span>
+  </div>
+  <p class="article-summary">
+    Everyone's talking about AI — but most explanations are either too technical or too dramatic. Here's what it actually is, how it actually works, and what it actually means for your business. No robots. No science fiction. Just clarity.
+  </p>
+</div>
+
+<!-- ARTICLE LAYOUT -->
+<div class="article-layout">
+  <article class="article-body">
+
+    <h2 id="everywhere">AI is everywhere — but what is it?</h2>
+    <p>Open any newspaper, scroll any social feed, sit in any business meeting — someone is talking about AI. Artificial intelligence. It's being called the biggest technological shift since the internet. Some people say it will change everything. Others say it's mostly hype.</p>
+    <p>The truth, as usual, is somewhere in the middle. And the reason most people can't find that middle ground is that nobody has explained what AI actually <strong>is</strong> in plain English.</p>
+    <p>So let's do that right now.</p>
+
+    <div class="analogy-box">
+      <div class="analogy-label">The Simple Version</div>
+      <p>AI is software that has been trained to <strong>recognise patterns</strong> — and then use those patterns to make predictions, generate responses, or take actions. That's it. Everything else is detail built on top of that idea.</p>
+    </div>
+
+    <h2 id="how-it-works">How does it actually work?</h2>
+    <p>Traditional software follows rules you write explicitly. You tell it: if this happens, do that. Every outcome is programmed in advance by a human.</p>
+    <p>AI is different. Instead of following rules, AI learns from examples. You show it millions of examples of something — emails, images, conversations, chess games — and it gradually figures out the patterns. Then, when you give it something new, it uses those patterns to predict what the right answer probably is.</p>
+
+    <div class="analogy-box">
+      <div class="analogy-label">The Autocomplete Analogy</div>
+      <p>Think about the autocomplete on your phone keyboard. When you type "Happy birth—", your phone suggests "day" because it has learned from thousands of times people typed that phrase. <strong>That's a tiny version of what AI does.</strong> Modern AI does the same thing, just with vastly more data, vastly more computing power, and vastly more sophisticated pattern matching — across language, images, audio, code, and more.</p>
+    </div>
+
+    <p>When you type a question into ChatGPT or Claude, the AI isn't "thinking" the way you do. It's doing incredibly sophisticated pattern matching across billions of examples of human language — predicting, word by word, what a helpful, coherent response would look like based on everything it was trained on.</p>
+
+    <div class="ai-callout">
+      <div class="callout-label">Worth knowing</div>
+      <p>AI doesn't "know" things the way you know your own name. It has learned statistical patterns from enormous amounts of text. When it gets something wrong — and it does — it's because the pattern matching produced a plausible-sounding but incorrect answer. This is called a hallucination, and it's the main reason you should always sense-check important AI outputs.</p>
+    </div>
+
+    <h2 id="types">Not all AI is the same</h2>
+    <p>When most people say "AI" today, they usually mean one specific type — <strong>generative AI</strong>. These are tools like ChatGPT, Claude, Copilot, and Gemini that generate text, images, code, or audio in response to prompts.</p>
+    <p>But AI has been around in different forms for decades. When Netflix recommends a show, that's AI. When your spam filter catches junk email, that's AI. When Google Maps reroutes you around traffic, that's AI. When your bank flags an unusual transaction on your card, that's AI.</p>
+    <p>What changed recently is that AI got good enough at language to have natural conversations — and that made it suddenly feel personal and real in a way it never had before.</p>
+
+    <h2 id="good-bad">What AI is genuinely good at — and where it falls flat</h2>
+    <p>This is the most practically useful thing to understand. AI has real strengths and real weaknesses, and knowing the difference will save you a lot of frustration.</p>
+
+    <div class="comparison-grid">
+      <div class="comparison-card good-card">
+        <h4>AI is genuinely good at</h4>
+        <ul>
+          <li>Drafting emails, documents, and summaries</li>
+          <li>Explaining complex topics in simple language</li>
+          <li>Brainstorming ideas quickly</li>
+          <li>Writing and checking code</li>
+          <li>Translating between languages</li>
+          <li>Summarising long documents</li>
+          <li>Answering common questions instantly</li>
+          <li>Generating first drafts you then refine</li>
+        </ul>
+      </div>
+      <div class="comparison-card bad-card">
+        <h4>AI struggles with</h4>
+        <ul>
+          <li>Knowing what happened after its training ended</li>
+          <li>Accurate maths and precise calculations</li>
+          <li>Remembering previous conversations (usually)</li>
+          <li>Knowing when it's wrong — it sounds confident either way</li>
+          <li>Deeply personal or sensitive judgement calls</li>
+          <li>Legal, medical, or financial advice you can rely on</li>
+          <li>Anything requiring physical presence or action</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">The practical rule</div>
+      <p>Use AI as a very capable first-draft machine and a tireless assistant for research, writing, and thinking. Always apply your own judgement before acting on anything important. AI speeds you up — it doesn't replace your expertise or responsibility.</p>
+    </div>
+
+    <h2 id="business">What does this mean for your business?</h2>
+    <p>You don't need to become a technical expert to benefit from AI. The tools available today are designed to be used by ordinary people in ordinary business situations. A few genuinely useful starting points:</p>
+    <p><strong>Writing and communication.</strong> Drafting client emails, proposal documents, social media posts, or website copy takes a fraction of the time when you use AI as a starting point. You describe what you want, get a draft, then edit it in your voice.</p>
+    <p><strong>Research and summaries.</strong> If you need to understand an unfamiliar topic quickly — a new market, a legal term, a competitor — AI can give you a solid plain-English overview in seconds. Always verify anything important, but it dramatically accelerates your starting point.</p>
+    <p><strong>Customer communication templates.</strong> Frequently asked questions, standard responses, follow-up emails — AI can help you build a library of professional templates tailored to your business.</p>
+    <p><strong>Ideas and problem-solving.</strong> Stuck on a business problem? Describe it to an AI tool and ask for ten different approaches. You won't use most of them, but you'll almost always find one angle you hadn't considered.</p>
+
+    <div class="ai-callout">
+      <div class="callout-label">The honest reality</div>
+      <p>AI will not run your business for you. It will not replace the relationships, expertise, and judgement that make your business yours. But used well, it can make you meaningfully faster and more capable at the tasks that take up your time — especially writing, research, and communication.</p>
+    </div>
+
+    <h2 id="afraid">Should you be worried about AI?</h2>
+    <p>This is the question under most conversations about AI, so let's address it directly. The dramatic headlines — AI taking every job, AI becoming conscious, AI posing existential risks — are real debates happening among serious people. But they are not the conversation relevant to your business today.</p>
+    <p>What is relevant today is much simpler: <strong>people who use AI effectively will be faster and more capable than people who don't.</strong> That's the practical reality of right now. Learning to use these tools well is a genuine competitive advantage — not because AI replaces what you do, but because it handles more of the routine parts so you can focus on the parts only you can do.</p>
+
+    <div class="divider"></div>
+
+    <div class="key-takeaways">
+      <h3>Key takeaways</h3>
+      <ul>
+        <li>AI learns from patterns in data — it doesn't think like a human, it predicts like a very sophisticated pattern-matcher</li>
+        <li>Generative AI (ChatGPT, Claude, Copilot etc.) is the type most relevant to your business right now</li>
+        <li>AI has been in everyday tools for years — spam filters, maps, recommendations</li>
+        <li>AI is excellent at drafting, summarising, explaining, and brainstorming</li>
+        <li>AI struggles with accuracy, recent information, and knowing when it's wrong — always check important outputs</li>
+        <li>You don't need to be technical to use AI — the tools are designed for ordinary people</li>
+        <li>The practical advantage: AI makes you faster at writing, research, and communication</li>
+      </ul>
+    </div>
+
+    <h2 id="next">What's next in this series</h2>
+    <p>This is the first article in The Signal's AI series. Coming next: a plain-English comparison of the main AI tools — ChatGPT, Claude, Copilot, and Gemini — so you can decide which one actually fits your needs. After that, we look at how small businesses are using AI in practical, unglamorous, genuinely useful ways right now.</p>
+    <p>If there's a specific AI question you want answered in plain English, send it through the contact form on the homepage. If enough people ask the same thing, it becomes an article.</p>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="article-sidebar">
+    <div class="sidebar-toc">
+      <h4>In this article</h4>
+      <ul class="toc-list">
+        <li><a href="#everywhere">AI is everywhere — but what is it?</a></li>
+        <li><a href="#how-it-works">How does it actually work?</a></li>
+        <li><a href="#types">Not all AI is the same</a></li>
+        <li><a href="#good-bad">What AI is good at — and where it falls flat</a></li>
+        <li><a href="#business">What this means for your business</a></li>
+        <li><a href="#afraid">Should you be worried?</a></li>
+        <li><a href="#next">What's next</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-cta">
+      <p>Want to use AI in your business but not sure where to start? We can help you build a practical setup.</p>
+      <a href="index.html#contact">Talk to us →</a>
+    </div>
+
+    <div class="sidebar-related">
+      <h4>More from The Signal</h4>
+      <a href="signal-tls.html" class="related-link">
+        <span class="related-icon">🔐</span>
+        <span class="related-title">What is TLS? The padlock in your browser, explained</span>
+      </a>
+      <a href="signal-dns.html" class="related-link">
+        <span class="related-icon">🗺️</span>
+        <span class="related-title">DNS: The internet's phone book</span>
+      </a>
+      <a href="signal-ssl.html" class="related-link">
+        <span class="related-icon">🛡️</span>
+        <span class="related-title">HTTP vs HTTPS — what's the real difference?</span>
+      </a>
+    </div>
+  </aside>
+</div>
+
+<!-- FOOTER -->
+<div class="article-footer">
+  <a href="index.html" class="article-footer-logo">Sys<span>vyn</span></a>
+  <p>Part of <a href="signal.html">The Signal</a> — tech explained for humans</p>
+  <a href="index.html#contact">Get in touch →</a>
+</div>
+
+</body>
+</html>
