@@ -63,6 +63,20 @@
     <priority>0.8</priority>
   </url>
 
+ <loc>https://sysvyn.com/signal-domains.html</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <news:news>
+      <news:publication>
+        <news:name>The Signal by Sysvyn</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>YYYY-MM-DD</news:publication_date>
+      <news:title>What is a domain name? Why every business needs one</news:title>
+    </news:news>
+  </url>
+
   <!--
     ADD NEW ARTICLES HERE each time you publish.
     Copy the block below, paste above this comment,
